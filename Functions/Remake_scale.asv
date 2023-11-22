@@ -1,0 +1,21 @@
+function [scaledImage] = Remake_scale(img)
+    [r,c] = size(img)  % Common dimensions for all images
+    
+    scaleRange = [0.5, 1.5];  % Scale range (50% to 150%)
+
+    %Generate a random scaling factor within the specified range
+    scalingFactor = rand(1) * (scaleRange(2) - scaleRange(1)) + scaleRange(1);
+    % Scale the image without changing its size (zoom in or out)
+    scaledImage = imresize(img, scalingFactor)
+
+    % Display the original and scaled images (optional)
+    figure;
+    subplot(1, 2, 1);
+    imshow(img);
+    title('Original Image');
+
+    subplot(1, 2, 2);
+    imshow(scaledImage);
+    title(['Scaled Image (' num2str(scalingFactor * 100) '%)']);
+end
+

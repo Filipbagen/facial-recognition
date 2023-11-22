@@ -1,0 +1,11 @@
+function [outputArg1,outputArg2] = untitled(rotatedImg)
+rotationRange = [-5, 5];  % Rotation range in degrees
+
+% Generate a random rotation angle within the specified range
+rotationAngle = randi([rotationRange(1), rotationRange(2)]);
+
+% Rotate the cropped image
+rotatedImage = imrotate(imagePath, rotationAngle, 'bilinear', 'crop');
+
+end
+
