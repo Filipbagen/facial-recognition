@@ -1,8 +1,9 @@
-function [dataMatrix, imageFiles] = loadAndPreprocessImages(folderPath, numImages, commonSize)
+function [dataMatrix, imageFiles] = loadAndPreprocessImages(folderPath, commonSize)
     imageFiles = dir(fullfile(folderPath, '*.jpg'));
-    dataMatrix = zeros(numImages, prod(commonSize));
+    numberOfImages = numel(imageFiles);
+    dataMatrix = zeros(numberOfImages, prod(commonSize));
 
-    for i = 1:numImages
+    for i = 1:numberOfImages
         img = imread(fullfile(folderPath, imageFiles(i).name));
         grayImg = im2gray(img);
         resizedImg = imresize(grayImg, commonSize);
