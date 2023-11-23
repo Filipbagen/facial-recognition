@@ -1,4 +1,5 @@
-function [dataMatrix, imageFiles] = loadAndPreprocessImages(folderPath, commonSize)
+function [dataMatrix, imageFiles] = load_and_preprocess_images(folderPath, commonSize)
+
     imageFiles = dir(fullfile(folderPath, '*.jpg'));
     numberOfImages = numel(imageFiles);
     dataMatrix = zeros(numberOfImages, prod(commonSize));

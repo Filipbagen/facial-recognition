@@ -1,4 +1,5 @@
-function queryWeights = projectOntoEigenfaces(queryImagePath, eigenfaces, meanFace, commonSize)
+function queryWeights = project_onto_eigenfaces(queryImagePath, eigenfaces, meanFace, commonSize)
+
     queryImg = imread(queryImagePath);
     queryImgGray = im2gray(queryImg);
     queryImgResized = imresize(queryImgGray, commonSize);
