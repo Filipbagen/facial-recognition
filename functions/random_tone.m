@@ -1,4 +1,4 @@
-function [adjustedImage] = random_tone(originalImage)
+function [adjustedImage] = random_tone(img)
     
     % Define the range for the random tone change (-30% to 30%)
     minToneChange = -30;
@@ -8,16 +8,11 @@ function [adjustedImage] = random_tone(originalImage)
     toneChangePercentage = rand() * (maxToneChange - minToneChange) + minToneChange;
 
     % Calculate the adjustment factor for brightness
-    brightnessFactor = toneChangePercentage ;    % Increase brightness
-
-    % Scale the factor to be in the range [0.0, 1.0]
-    %brightnessFactor = max(0, min(1, brightnessFactor));
+    brightnessFactor = toneChangePercentage;
 
     % Adjust the tone of the image (only brightness)
-    adjustedImage = imadd(originalImage, brightnessFactor);
+    adjustedImage = img + brightnessFactor / 100;
 
-    % Display the original and adjusted images
-    % figure;
-    % subplot(1, 2, 1), imshow(originalImage), title('Original Image');
-    % subplot(1, 2, 2), imshow(adjustedImage), title(['Adjusted Image (' num2str(brightnessFactor) ')%']);
+    % Ensure the adjusted image is within the valid range [0, 1]
+    adjustedImage = max(min(adjustedImage, 1), 0);
 end
