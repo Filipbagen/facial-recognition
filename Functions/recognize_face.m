@@ -1,4 +1,5 @@
-function recognizeFace(queryWeights, score, numImages, folderPath, imageFiles, numEigenfaces)
+function recognize_face(queryWeights, score, numImages, folderPath, imageFiles, numEigenfaces)
+
     minDistance = inf;
     minIndex = 0;
     
