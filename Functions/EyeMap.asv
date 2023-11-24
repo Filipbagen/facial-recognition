@@ -1,4 +1,4 @@
-function [eyeMap] = EyeMap(img)
+function [binaryEyeMap] = EyeMap(img)
     % Convert the image to YCbCr color space
     YCbCr_image = rgb2ycbcr(img);
     
@@ -20,19 +20,23 @@ function [eyeMap] = EyeMap(img)
     % Compute the luminance-based eye map (EyeMapL)
     EyeMapL = y_dilate./(y_erode + 1);
     EyeMapL = EyeMapL./max(EyeMapL(:));
-
+    
     % Combine the chrominance and luminance eye maps
     output = EyeMapC .* EyeMapL;
+   
+    % Use Otsu's method to automatically determine the threshold
+    threshold = graythresh(output);
 
-    % Dilate the final eye map for better visualization
-    eyeMap = imdilate(output, se);
-  
-    % Display both EyeMapC and EyeMapL in the same subplot
-    subplot(1, 2, 1);
-    imshow(EyeMapC);
-    title('EyeMapC');
+    % Apply the threshold to convert to a binary image
+    binaryEyeMap = imbinarize(output, threshold);
 
-    subplot(1, 2, 2);
-    imshow(EyeMapL);
-    title('EyeMapL');
+    % Additional morphological operations to refine the binary image
+    binaryEyeMap = imopen(binaryEyeMap, strel('disk', 3)); % Opening operation
+    binaryEyeMap = imclose(binaryEyeMap, strel('disk', 3)); % Closing operation
+
+    % Remove larger objects (hair, shoulders) from the binary image
+    binaryEyeMap = bwareaopen(binaryEyeMap, 0);
+
+    % Dilate the final binary eye map for better visualization
+    binaryEyeMap = imdilate(binaryEyeMap, se);
 end
