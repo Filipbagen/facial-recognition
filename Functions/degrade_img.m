@@ -13,4 +13,5 @@ function [degraded_image] = degrade_img(img)
     img = random_tone(img);
 
     degraded_image = img;
+    
 end
