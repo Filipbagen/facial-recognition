@@ -1,4 +1,4 @@
-function [score, meanFace, numEigenfaces, eigenfaces, numComponentsRequired] = performPCA(dataMatrix, commonSize, threshold)
+function [score, meanFace, numEigenfaces, eigenfaces, numComponentsRequired] = performPCA(dataMatrix, threshold)
     meanFace = mean(dataMatrix);
     meanCenteredData = dataMatrix - meanFace;
     [coeff, score, latent] = pca(meanCenteredData);
