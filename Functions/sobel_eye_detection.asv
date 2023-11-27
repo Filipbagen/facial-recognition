@@ -1,0 +1,22 @@
+function [sobel_eye_image] = sobel_eye_detection(image)
+
+    grayI = rgb2gray(image);
+    edges = edge(grayI, 'Sobel');
+    
+    se = strel('disk', 2);          % Example structuring element
+    dilatedEdges = imdilate(edges, se);
+    erodedEdges = imerode(dilatedEdges, se);
+    
+    % Identifying regions - this is a simplistic approach
+    props = regionprops(erodedEdges, 'BoundingBox', 'Area', 'Eccentricity');
+    % Filtering based on properties - adjust these based on your needs
+    eyeCandidates = props([props.Area] > 0.9 & [props.Eccentricity] < 1);
+    
+    % Displaying results
+    imshow(image);
+    hold on;
+    for k = 1 : length(eyeCandidates)
+        rectangle('Position', eyeCandidates(k).BoundingBox, 'EdgeColor', 'r');
+    end
+end
+
