@@ -1,4 +1,4 @@
-function Output = MouthMap(img)
+function [mouth_Map, mouth_center] = MouthMap(img)
     % Convert RGB image to YCbCr Components
     YCbCr = rgb2ycbcr(img);
 
@@ -40,8 +40,16 @@ function Output = MouthMap(img)
 
     % Keep only the largest connected components (the mouth)
     num_largest_components = 1;  % Adjust as needed
-    Output = bwareafilt(binary_mask, num_largest_components);
+    mouth_Map = bwareafilt(binary_mask, num_largest_components);
 
+    % Find properties of connected regions in the mouth map
+    mouth_props = regionprops(mouth_Map, 'Centroid', 'MajoraxisLength', 'MinoraxisLength', 'Orientation');
 
+    % Initialize mouth_center
+    mouth_center = [];
 
+    % Check if there is at least one region in the mouth map
+    if ~isempty(mouth_props)
+        mouth_center = mouth_props.Centroid;
+    end
 end

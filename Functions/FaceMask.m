@@ -22,4 +22,8 @@ function binary_img = FaceMask(img)
     se = strel('square', 3);
     binary_img = imfill(binary_img, 'holes');
     binary_img = imclose(binary_img, se);
+    
+    % Expand for image (10) to work
+    se2 = strel('sphere', 14);
+    binary_img = imdilate(binary_img, se2);
 end

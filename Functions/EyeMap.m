@@ -1,4 +1,4 @@
-function [binaryEyeMap, circles, randii] = EyeMap(img)
+function [binaryEyeMap] = EyeMap(img)
     % Convert the image to YCbCr color space
     YCbCr_image = rgb2ycbcr(img);
     
@@ -13,7 +13,7 @@ function [binaryEyeMap, circles, randii] = EyeMap(img)
     EyeMapC = EyeMapC./max(EyeMapC(:));
     
     % Morphological operations on the luminance component (optional)
-    se = strel('disk', 5); % Adjust the size of the structuring element
+    se = strel('disk', 6); % Adjust the size of the structuring element
     y_dilate = imdilate(y, se);
     y_erode = imerode(y, se);
     
@@ -23,22 +23,21 @@ function [binaryEyeMap, circles, randii] = EyeMap(img)
     
     % Combine the chrominance and luminance eye maps
     output = EyeMapC .* EyeMapL;
+    
+%     % Dilate the final binary eye map for better visualization
+%     binaryEyeMap = imdilate(output, se);
+    
+     % Adjust the threshold value based on your requirements
+    threshold = 0.48; 
    
-    % Use Otsu's method to automatically determine the threshold
-    threshold = graythresh(output);
-
-    % Apply the threshold to convert to a binary image
-    binaryEyeMap = imbinarize(output, threshold);
-
-    % Remove small objects 
-    binaryEyeMap = bwareaopen(binaryEyeMap, 80);
+    % Apply the threshold to create a binary image
+    binaryEyeMap = output > threshold;
 
     % Dilate the final binary eye map for better visualization
     binaryEyeMap = imdilate(binaryEyeMap, se);
-
-    % Apply circular Hough transform to find circles
-    radiusRange = [10, 55]; % Adjust the radius range based on expected eye size
-    sensitivity = 0.75; % Adjust the sensitivity based on your images
-    [circles, randii] = imfindcircles(binaryEyeMap, radiusRange, 'Sensitivity', sensitivity);
     
+    % Apply circular Hough transform to find circles
+%     radiusRange = [6, 10]; % Adjust the radius range based on expected eye size
+%     sensitivity = 0.80; % Adjust the sensitivity based on your images
+%     [circles, randii] = imfindcircles(binaryEyeMap, radiusRange, 'Sensitivity', sensitivity);
 end
