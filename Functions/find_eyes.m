@@ -20,39 +20,6 @@ function [eyes] = find_eyes(img)
     % imshow(WP)
 
 
-    %%%%%%% Color Space + FaceMask  %%%%%%%%%%%%%%%%%%%%%
-    testFM = FaceMask(WP);
-    %imshow(testFM)
-
-    %%%%%%%%%%%% Eye map: Chrominance & Luminance %%%%%%%%%%%%
-    binaryEyeMap = EyeMap(WP);
-    %imshow(binaryEyeMap)
-
-
-    %%%%%%%%%%%%%% Tidigare kod för att hitta circles från ansikte %%%
-    %[FMEM, circle, randii] = EyeFilter(WP);
-    [FMEM] = EyeFilter(WP);
-    %imshow(FMEM)
-
-    % circle;
-    % centersStrong5 = circle(1:2,:);
-    % radiiStrong5 = randii(1:2);
-    % viscircles(centersStrong5, radiiStrong5,'EdgeColor','b');
-
-    % BW1 = edge(FMEM,'sobel');
-    % imshow(BW1)
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-    %%%%%%%%%%%%% Mouth map? %%%%%%%%%%%%%%%%%%%%%%%%%
-    [mouth_Map, mouth_center] = MouthMap(WP);
-    %imshow(mouth_Map)
-
-    % disp('Mouth Center Coordinates:');
-    % disp(mouth_center)
-
-
     %%%%%%%%%%%%%% Face Boundary %%%%%%%%%%%%%%%%%%%%%%%% 
     % Assuming you have the input image 'img'
     [eyes, mouth] = face_boundary(WP);
@@ -60,6 +27,7 @@ function [eyes] = find_eyes(img)
     % Display the original image
     figure;
     imshow(WP);
+    title('Eyes and mouth');
     hold on;
 
     %Plot the mouth center
@@ -70,9 +38,6 @@ function [eyes] = find_eyes(img)
         plot(eyes(1, 1), eyes(1, 2), 'go', 'MarkerSize', 10); % Left eye
         plot(eyes(2, 1), eyes(2, 2), 'bo', 'MarkerSize', 10); % Right eye
     end
-
     hold off;
-    
-    eyes;
 end
 

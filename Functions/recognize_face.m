@@ -11,7 +11,7 @@ function recognize_face(queryWeights, score, numImages, folderPath, imageFiles, 
         end
     end
 
-    threshold = 1000;
+    threshold = 10000;
     if minDistance < threshold
         fprintf('The query image matches with image #%d in the training set.\n', minIndex);
         matchedImagePath = fullfile(folderPath, imageFiles(minIndex).name);

@@ -4,71 +4,64 @@ function [eyes, mouth] = face_boundary(img)
     
     % Get mouth position to find eyes
     [~, mouth] = MouthMap(img);
+    x_mouth = mouth(1);
+    y_mouth = mouth(2);
 
     % The number of detected eyes is determined 
     number_eyes = numel(eye_props);
 
-    % Distance between the eyes 
-    distance_b_eyes = zeros(number_eyes, 1); 
-    
-    %It is intended to store the coordinates of pairs of eyes
-    eye_candidates = zeros(2, 2, number_eyes);
-    
-    % Number of eye-pair candidates
-    index = 0;
-
-    % Save center of mouth to variables
-    x_mouth = mouth(1);
-    y_mouth = mouth(2);
-
-    % If we have 2 or more eye candidates
-    if number_eyes > 1
-        % Loop through eye candidates
-        for i = 1:number_eyes
-            for j = i+1:number_eyes
-                y1 = eye_props(i).Centroid(2);
-                y2 = eye_props(j).Centroid(2);
-                x1 = eye_props(i).Centroid(1);
-                x2 = eye_props(j).Centroid(1);
-
-                % Save pair of eyes 
-                eye_pairs = [x1 y1; x2 y2];
-
-                % Only saves eyes with smaller y-value than mouth
-                % and one eye on both sides of mouth
-                if(y_mouth > y1 && y_mouth > y2)                
-                    if(x1 < x_mouth && x_mouth < x2)
-                        % Save all confirmed eye pair to eye candidates
-                        index = index + 1;
-                        eye_candidates(:, :, index) = eye_pairs;                                                           
-                        distance_b_eyes(index) = sqrt((x1 - x2)^2 + (y1 - y2)^2);   
-                    end
-                end 
-            end
-        end
-    else
-        eyes = [];  % Not enough eye candidates
+    % Early exit if not enough eye candidates
+    if number_eyes < 2
+        eyes = [];
         return;
     end
 
-    % Save only 2 eye candidates
-    min_dist = Inf;
-    for i = 1:index
-        y1 = eye_candidates(1, 2, i);
-        y2 = eye_candidates(2, 2, i);
-        x1 = eye_candidates(1, 1, i);
-        x2 = eye_candidates(2, 1, i);
+    % Extract centroids
+    centroids = reshape([eye_props.Centroid], 2, number_eyes)';
+    x_eyes = centroids(:, 1);
+    y_eyes = centroids(:, 2);
 
-        % Dist between mouth and both eyes
+    % Filter eyes above the mouth
+    valid_eyes = y_eyes < y_mouth;
+    x_eyes = x_eyes(valid_eyes);
+    y_eyes = y_eyes(valid_eyes);
+
+    % Prepare for combinations
+    [X1, X2] = meshgrid(x_eyes, x_eyes);
+    [Y1, Y2] = meshgrid(y_eyes, y_eyes);
+
+    % Filter out combinations not meeting the criteria
+    valid_combinations = X1 < x_mouth & x_mouth < X2;
+    eye_pairs = [X1(valid_combinations) Y1(valid_combinations) X2(valid_combinations) Y2(valid_combinations)];
+
+    % Calculate distances
+    distances = sqrt((eye_pairs(:,1) - eye_pairs(:,3)).^2 + (eye_pairs(:,2) - eye_pairs(:,4)).^2);
+
+    % Initialize minimum distance
+    min_dist = Inf;
+
+    % Iterate over valid combinations
+    for i = 1:size(eye_pairs, 1)
+        % Extract pair
+        x1 = eye_pairs(i, 1);
+        y1 = eye_pairs(i, 2);
+        x2 = eye_pairs(i, 3);
+        y2 = eye_pairs(i, 4);
+        current_distance = distances(i);
+
+        % Calculate mouth-eye distances
         dist1 = sqrt((x1 - x_mouth)^2 + (y_mouth - y1)^2);
         dist2 = sqrt((x2 - x_mouth)^2 + (y_mouth - y2)^2);
 
-        % Find minimum dist difference between mouth and eyes
-        % Distance between eyes should be smaller than 1.5 times the 
-        % distance between eye and mouth (1.5 is tested and gave the best result)
-        if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * distance_b_eyes(i) && dist2 < 1.5 * distance_b_eyes(i)         
+        % Check distances
+        if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * current_distance && dist2 < 1.5 * current_distance         
             min_dist = abs(dist1 - dist2);            
-            eyes = eye_candidates(:, :, i);
+            eyes = [x1 y1; x2 y2];
         end
+    end
+
+    % If no eyes are found
+    if ~exist('eyes', 'var')
+        eyes = [];
     end
 end
