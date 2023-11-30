@@ -1,9 +1,8 @@
-function queryWeights = project_onto_eigenfaces(queryImagePath, eigenfaces, meanFace, commonSize)
+function queryWeights = project_onto_eigenfaces(inputImage, eigenfaces, meanFace)
 
-    queryImg = imread(queryImagePath);
+    queryImg = inputImage;
     queryImgGray = im2gray(queryImg);
-    queryImgResized = imresize(queryImgGray, commonSize);
-    queryImgVector = reshape(queryImgResized, 1, [])
+    queryImgVector = reshape(queryImgGray, 1, []);
 
     queryImgMeanSubtracted = double(queryImgVector) - meanFace;
     queryWeights = queryImgMeanSubtracted * eigenfaces;

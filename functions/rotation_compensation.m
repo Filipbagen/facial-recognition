@@ -48,10 +48,8 @@ function [rotatedImage] = rotation_compensation(img, eyes)
 
     % Crop the rotated image
     croppedRotatedImage = rot(cropY : cropY + cropHeight - 1, cropX : cropX + cropWidth - 1, :);
-    %rotatedImage = imresize(croppedRotatedImage,[400,300]);
-    %rotatedImage=croppedRotatedImage;
-    
-    rotatedImage = croppedRotatedImage;
+    rotatedImage = imresize(croppedRotatedImage,[400,300]);
+
 
 end
 

@@ -4,7 +4,7 @@ function [degraded_image] = degrade_img(img)
     img = im2double(img);
 
     % Rotates the image (max +/-5 degrees),
-    %img = random_rotate(img);
+    img = random_rotate(img);
     
     % Scales the image (max +/- 10%)
     %img = random_scale(img);

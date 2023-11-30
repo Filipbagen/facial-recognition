@@ -1,14 +1,14 @@
 function [eyes] = find_eyes(img)
 
     %%%%%%%%%%%%%%%% Crop the Image %%%%%%%%%%%%%%%%%%%%%
-    [rows, cols, ~] = size(img);
-
-    % Calculate the cropping margins (10% on each side)
-    cropMarginRows = round(0.1 * rows);
-    cropMarginCols = round(0.1 * cols);
-
-    % Crop the image
-    img = imcrop(img, [cropMarginCols, cropMarginRows, cols - 2*cropMarginCols, rows - 2*cropMarginRows]);
+%     [rows, cols, ~] = size(img);
+% 
+%     % Calculate the cropping margins (10% on each side)
+%     cropMarginRows = round(0.1 * rows);
+%     cropMarginCols = round(0.1 * cols);
+% 
+%     % Crop the image
+%     img = imcrop(img, [cropMarginCols, cropMarginRows, cols - 2*cropMarginCols, rows - 2*cropMarginRows]);
 
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
