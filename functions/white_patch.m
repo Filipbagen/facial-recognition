@@ -6,7 +6,7 @@ function [outputImg] = white_patch(img)
     topPercentile = 5;
     illuminant = illumwhite(A_lin, topPercentile);
     
-    B_lin = chromadapt(A_lin,illuminant, "ColorSpace", "linear-rgb");
+    B_lin = chromadapt(A_lin, illuminant, "ColorSpace", "linear-rgb");
     outputImg = lin2rgb(B_lin);
 
 end

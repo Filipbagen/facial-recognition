@@ -6,9 +6,7 @@ function [rotatedImage] = random_rotate(Img)
     rotationAngle = randi([rotationRange(1), rotationRange(2)]);
     
     % Rotate the cropped image
-    rotatedImage = imrotate(Img, rotationAngle, 'bilinear', 'crop');
+    rotatedImage = imrotate(Img, rotationAngle, 'bilinear', 'loose');
     
-    
-
 end
 
