@@ -14,13 +14,18 @@ function [rotatedImage] = rotation_compensation(img, eyes)
     [imageHeight, imageWidth, ~] = size(img);
     centerX = floor(imageWidth/2 + 1);
     centerY = floor(imageHeight/2 + 1);
+    
+    % Pad
+    padRow = round((imageHeight) / 2);
+    padCol = round((imageWidth) / 2);
+    zoomedImg = padarray(img, [padRow, padCol], 0, 'both');
 
     % Calculate translation values
     dx = centerX - x1;
     dy = centerY - y1;
 
     % Translate the image to position the left eye at the center
-    translatedImage = imtranslate(img, [dx, dy]);
+    translatedImage = imtranslate(zoomedImg, [dx, dy]);
     
     % Rotate the translated image around the center with padding
     rot = imrotate(translatedImage, angle_deg, 'bicubic', 'loose');   
