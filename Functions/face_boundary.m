@@ -5,23 +5,27 @@ function [eyes, mouth] = face_boundary(img)
     % Get mouth position to find eyes
     [~, mouth] = MouthMap(img);
 
-    % Find values for all eye candidates 
-    n_eyes = numel(eye_props);
+    % The number of detected eyes is determined 
+    number_eyes = numel(eye_props);
 
-    % Empty variables
-    dist_eyes = zeros(n_eyes, 1); 
-    eye_candidates = zeros(2, 2, n_eyes);
+    % Distance between the eyes 
+    distance_b_eyes = zeros(number_eyes, 1); 
+    
+    %It is intended to store the coordinates of pairs of eyes
+    eye_candidates = zeros(2, 2, number_eyes);
+    
+    % Number of eye-pair candidates
     index = 0;
 
     % Save center of mouth to variables
     x_mouth = mouth(1);
     y_mouth = mouth(2);
 
-    % If we have more than 2 eye candidates
-    if n_eyes > 1
+    % If we have 2 or more eye candidates
+    if number_eyes > 1
         % Loop through eye candidates
-        for i = 1:n_eyes
-            for j = i+1:n_eyes
+        for i = 1:number_eyes
+            for j = i+1:number_eyes
                 y1 = eye_props(i).Centroid(2);
                 y2 = eye_props(j).Centroid(2);
                 x1 = eye_props(i).Centroid(1);
@@ -37,7 +41,7 @@ function [eyes, mouth] = face_boundary(img)
                         % Save all confirmed eye pair to eye candidates
                         index = index + 1;
                         eye_candidates(:, :, index) = eye_pairs;                                                           
-                        dist_eyes(index) = sqrt((x1 - x2)^2 + (y1 - y2)^2);   
+                        distance_b_eyes(index) = sqrt((x1 - x2)^2 + (y1 - y2)^2);   
                     end
                 end 
             end
@@ -62,7 +66,7 @@ function [eyes, mouth] = face_boundary(img)
         % Find minimum dist difference between mouth and eyes
         % Distance between eyes should be smaller than 1.5 times the 
         % distance between eye and mouth (1.5 is tested and gave the best result)
-        if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * dist_eyes(i) && dist2 < 1.5 * dist_eyes(i)         
+        if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * distance_b_eyes(i) && dist2 < 1.5 * distance_b_eyes(i)         
             min_dist = abs(dist1 - dist2);            
             eyes = eye_candidates(:, :, i);
         end
