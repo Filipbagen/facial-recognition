@@ -2,6 +2,9 @@ function recognize_face(queryWeights, score, numImages, folderPath, imageFiles, 
 
     minDistance = inf;
     minIndex = 0;
+
+    hej = numel(folderPath);
+    hej
     
     for i = 1:numImages
         distance = norm(score(i,1:numEigenfaces) - queryWeights);

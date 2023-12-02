@@ -24,6 +24,11 @@ function [eyes] = find_eyes(img)
     % Assuming you have the input image 'img'
     [eyes, mouth] = face_boundary(WP);
 
+    % If no eyes, error
+    if isempty(eyes)
+        error('no eyes')
+    end
+
     % Display the original image
     figure;
     imshow(WP);
