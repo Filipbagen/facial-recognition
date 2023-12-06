@@ -1,4 +1,3 @@
-%function [FMEM, circles, randii] = EyeFilter(img)
 function [FMEM] = EyeFilter(img)
     % Combining Eye Map and Face Mask to detect the eyes 
     FMEM = EyeMap(img) & FaceMask(img);
@@ -8,29 +7,37 @@ function [FMEM] = EyeFilter(img)
     maskBottom = ones(rows, cols);
     
     % Define the percentage of the image height to remove (25% from the bottom)
-    removePercentage = 0.25;
-    removeRows = round(rows * removePercentage);
+    removePercentageBottom = 0.25;
+    removeRowsBottom = round(rows * removePercentageBottom);
     
     % Apply the mask to FMEM
-    maskBottom(end - removeRows + 1:end, :) = 0;
+    maskBottom(end - removeRowsBottom + 1:end, :) = 0;
     FMEM = FMEM & maskBottom;
 
     % Create a mask to remove white areas from the top down to 25% of the image
     maskTop = ones(rows, cols);
     
     % Define the percentage of the image height to remove (25% from the top)
-    removePercentage = 0.25;
-    removeRows = round(rows * removePercentage);
+    removePercentageTop = 0.25;
+    removeRowsTop = round(rows * removePercentageTop);
     
     % Apply the mask to FMEM
-    maskTop(1:removeRows, :) = 0;
+    maskTop(1:removeRowsTop, :) = 0;
     FMEM = FMEM & maskTop;
 
-    % Remove small white blobs
-    minBlobSize = 230; % Adjust the minimum blob size based on your requirements
-    FMEM = bwareaopen(FMEM, minBlobSize);
+    % Create a mask to remove white areas from the left and right sides
+    maskLeftRight = ones(rows, cols);
+    
+    % Define the percentage of the image width to remove (10% from each side)
+    removePercentageLR = 0.20;
+    removeColsLR = round(cols * removePercentageLR);
+    
+    % Apply the mask to FMEM
+    maskLeftRight(:, 1:removeColsLR) = 0;
+    maskLeftRight(:, end - removeColsLR + 1:end) = 0;
+    FMEM = FMEM & maskLeftRight;
 
-%     radiusRange = [4, 20]; % Adjust the radius range based on expected eye size
-%     sensitivity = 0.80; % Adjust the sensitivity based on your images
-%     [circles, randii] = imfindcircles(FMEM, radiusRange, 'Sensitivity', sensitivity);
+    % Remove small white blobs - Adjust the minimum blob size based on your requirements
+    minBlobSize = 238; 
+    FMEM = bwareaopen(FMEM, minBlobSize);
 end
