@@ -81,7 +81,8 @@ function [eyes, mouth] = face_boundary(img)
         dist1 = sqrt((x1 - x_mouth)^2 + (y_mouth - y1)^2);
         dist2 = sqrt((x2 - x_mouth)^2 + (y_mouth - y2)^2);
         
-        some_value_percentage = 5; % You can experiment with different percentages
+        % Making sure that the eye pair have similar y-coordinate (otehrwise not a pair)
+        some_value_percentage = 5; 
         some_value = some_value_percentage / 100 * size(img, 1);
 
 
