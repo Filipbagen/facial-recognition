@@ -1,4 +1,8 @@
 function binary_img = FaceMask(img)
+    % light compensation of the input image
+    img = white_patch(img);
+
+
     % Method 1: YCbCr color space
     YCbCr_image = rgb2ycbcr(img);
     Y = YCbCr_image(:,:,1);
@@ -19,11 +23,12 @@ function binary_img = FaceMask(img)
     binary_img = uint8(skin_mask) * 255;
 
     % Fill holes in the binary image
-    se = strel('square', 3);
     binary_img = imfill(binary_img, 'holes');
+    
+    se = strel('square', 11);
     binary_img = imclose(binary_img, se);
     
     % Expand for image (10) to work
-    se2 = strel('sphere', 14);
+    se2 = strel('sphere', 24);
     binary_img = imdilate(binary_img, se2);
 end

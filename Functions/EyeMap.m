@@ -13,7 +13,7 @@ function [binaryEyeMap] = EyeMap(img)
     EyeMapC = EyeMapC./max(EyeMapC(:));
     
     % Morphological operations on the luminance component (optional)
-    se = strel('disk', 6); % Adjust the size of the structuring element
+    se = strel('disk', 7); % Adjust the size of the structuring element
     y_dilate = imdilate(y, se);
     y_erode = imerode(y, se);
     
