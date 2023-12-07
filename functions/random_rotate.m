@@ -6,7 +6,7 @@ function [rotatedImage] = random_rotate(Img)
     rotationAngle = randi([rotationRange(1), rotationRange(2)])
     
    % Rotate the image
-    rotatedImage = imrotate(Img, rotationAngle, 'bilinear', 'crop');
+    rotatedImage = imrotate(Img, rotationAngle, 'bicubic', 'crop');
 
     % Create a binary mask based on values close to zero in each channel of the rotated image
     binaryMask = all(abs(rotatedImage) < 1e-6, 3);  % Tolerance for floating-point errors
