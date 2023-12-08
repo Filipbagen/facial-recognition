@@ -1,12 +1,9 @@
-function recognize_face(queryWeights, score, numImages, folderPath, imageFiles, numEigenfaces)
+function recognize_face(queryWeights, score, folderPath, imageFiles, numEigenfaces)    
 
     minDistance = inf;
     minIndex = 0;
-
-    hej = numel(folderPath);
-    hej
     
-    for i = 1:numImages
+    for i = 1:length(imageFiles)
         distance = norm(score(i,1:numEigenfaces) - queryWeights);
         if distance < minDistance
             minDistance = distance;
@@ -14,7 +11,8 @@ function recognize_face(queryWeights, score, numImages, folderPath, imageFiles, 
         end
     end
 
-    threshold = 10000;
+    threshold = 3000;
+
     if minDistance < threshold
         fprintf('The query image matches with image #%d in the training set.\n', minIndex);
         matchedImagePath = fullfile(folderPath, imageFiles(minIndex).name);

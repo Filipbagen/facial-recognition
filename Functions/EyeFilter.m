@@ -30,6 +30,7 @@ function [FMEM] = EyeFilter(img)
     minBlobSize = 230; % Adjust the minimum blob size based on your requirements
     FMEM = bwareaopen(FMEM, minBlobSize);
 
+
 %     radiusRange = [4, 20]; % Adjust the radius range based on expected eye size
 %     sensitivity = 0.80; % Adjust the sensitivity based on your images
 %     [circles, randii] = imfindcircles(FMEM, radiusRange, 'Sensitivity', sensitivity);

@@ -1,7 +1,8 @@
 function [eyes, mouth] = face_boundary(img)
+
     % Get eye properties
     eye_props = regionprops(EyeFilter(img), 'Centroid');
-    
+
     % Get mouth position to find eyes
     [~, mouth] = MouthMap(img);
     x_mouth = mouth(1);

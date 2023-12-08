@@ -4,7 +4,10 @@ function [zoomedImg] = random_scale(img)
     [rows, cols, ~] = size(img);
     
     % Generate a random zoom factor between 0.9 and 1.1
-    zoomFactor = 0.9 + 0.2 * rand(); 
+    % zoomFactor = 0.9 + 0.2 * rand(); 
+
+    % Generate a random zoom factor between 1.1 and 1.3
+    zoomFactor = 1.1 + 0.2 * rand(); 
     
     % Resize the image
     resizedImg = imresize(img, zoomFactor);
