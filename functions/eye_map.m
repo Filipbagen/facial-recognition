@@ -1,4 +1,4 @@
-function [binaryEyeMap] = EyeMap(img)
+function [binaryEyeMap] = eye_map(img)
     % Convert the image to YCbCr color space
     YCbCr_image = rgb2ycbcr(img);
     

@@ -1,6 +1,6 @@
-function [FMEM] = EyeFilter(img)
+function [FMEM] = eye_filter(img)
     % Combining Eye Map and Face Mask to detect the eyes 
-    FMEM = EyeMap(img) & FaceMask(img);
+    FMEM = eye_map(img) & face_mask(img);
 
     % Create a mask to remove white areas from the bottom up to 25% of the image
     [rows, cols] = size(FMEM);

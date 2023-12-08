@@ -7,7 +7,7 @@ function [degraded_image] = degrade_img(img)
     img = random_rotate(img);
     
     % Scales the image (max +/- 10%)
-    % img = random_scale(img);
+    img = random_scale(img);
     
     % Adjusts tone(contrast and brightness) and temperature (max +/- 30%)
     img = random_tone(img);

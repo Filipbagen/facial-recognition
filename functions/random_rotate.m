@@ -26,18 +26,19 @@ function [rotatedImage] = random_rotate(Img)
     rotationRange = [-5, 5]; 
 
     % Generate a random rotation angle within the specified range
-    rotationAngle = randi([rotationRange(1), rotationRange(2)])
+    rotationAngle = randi([rotationRange(1), rotationRange(2)]);
     
    % Rotate the image
     rotatedImage = imrotate(Img, rotationAngle, 'bicubic', 'crop');
-
+    
+    % Get the dimensions of the rotated image
+    rotHeight = size(rotatedImage, 1);
+    rotWidth = size(rotatedImage, 2);
+    
     % Create a binary mask based on values close to zero in each channel of the rotated image
     binaryMask = all(abs(rotatedImage) < 1e-6, 3);  % Tolerance for floating-point errors
-
-    % Apply the mask to retain the original background for each channel
-    for channel = 1:3
-        rotatedImage(:,:,channel) = rotatedImage(:,:,channel) .* ~binaryMask + Img(:,:,channel) .* binaryMask;
-    end
+    
+    % (Rest of your code)
     
     % Calculate the size of the largest rectangle that fits inside the rotated image
     % while maintaining the original aspect ratio
@@ -59,7 +60,8 @@ function [rotatedImage] = random_rotate(Img)
     end
 
     % Crop the image to the calculated coordinates
-    rotatedImage = imcrop(rotated, [cropX, cropY, cropWidth, cropHeight]);
+    rotatedImage = imcrop(rotatedImage, [cropX, cropY, cropWidth, cropHeight]);
+
 end
 
 

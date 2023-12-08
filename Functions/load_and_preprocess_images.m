@@ -16,7 +16,6 @@ function [dataMatrix, imageFiles] = load_and_preprocess_images(folderPath, commo
 
         % Crop the image
         croppedImage = crop_img(rotatedImage, rotatedEyeCoordinates, rotatedMouthCoordinate);
-        imshow(croppedImage)
         
         grayImg = im2gray(croppedImage);
         dataMatrix(i, :) = reshape(grayImg, 1, []);

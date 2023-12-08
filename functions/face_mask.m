@@ -1,4 +1,4 @@
-function binary_img = FaceMask(img)
+function binary_img = face_mask(img)
     % light compensation of the input image
     img = white_patch(img);
 

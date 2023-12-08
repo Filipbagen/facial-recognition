@@ -1,4 +1,4 @@
-function [mouth_Map, mouth_center] = MouthMap(img)
+function [mouth_Map, mouth_center] = mouth_map(img)
     % Convert RGB image to YCbCr Components
     YCbCr = rgb2ycbcr(img);
 

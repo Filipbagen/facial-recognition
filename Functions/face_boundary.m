@@ -1,18 +1,15 @@
 function [eyes, mouth] = face_boundary(img)
 
     % Get eye properties
-    eye_props = regionprops(EyeFilter(img), 'Centroid');
+    eye_props = regionprops(eye_filter(img), 'Centroid');
 
     % Get mouth position to find eyes
-    [~, mouth] = MouthMap(img);
+    [~, mouth] = mouth_map(img);
     x_mouth = mouth(1);
     y_mouth = mouth(2);
 
     % The number of detected eyes is determined 
     number_eyes = numel(eye_props);
-
-    % Print debugging information
-    disp(['Number of detected eyes: ', num2str(number_eyes)]);
 
     % If there are no eyes, display a message and exit
     if number_eyes < 1
@@ -25,17 +22,6 @@ function [eyes, mouth] = face_boundary(img)
     centroids = reshape([eye_props.Centroid], 2, number_eyes)';
     x_eyes = centroids(:, 1);
     y_eyes = centroids(:, 2);
-
-    % Print debugging information
-    disp('Detected eye candidates:');
-    disp([x_eyes, y_eyes]);
-
-    % If there are only two candidates, choose them directly
-    if number_eyes == 2
-        eyes = [x_eyes(1), y_eyes(1); x_eyes(2), y_eyes(2)];
-        disp('Choosing two eye candidates directly.');
-        return;
-    end
 
     % Set some_value as a percentage of the mouth height to get rid off
     % false-positive values
@@ -51,10 +37,6 @@ function [eyes, mouth] = face_boundary(img)
     % Filter out combinations not meeting the criteria
     valid_combinations = X1 < x_mouth & x_mouth < X2 & Y1 < y_mouth & Y2 < y_threshold;
     eye_pairs = [X1(valid_combinations) Y1(valid_combinations) X2(valid_combinations) Y2(valid_combinations)];
-
-    % Print debugging information
-    disp('Valid eye candidates after combinations:');
-    disp(eye_pairs)
 
     % If there are no valid combinations, exit
     if isempty(eye_pairs)
