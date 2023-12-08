@@ -4,10 +4,7 @@ function [zoomedImg] = random_scale(img)
     [rows, cols, ~] = size(img);
     
     % Generate a random zoom factor between 0.9 and 1.1
-    % zoomFactor = 0.9 + 0.2 * rand(); 
-
-    % Generate a random zoom factor between 1.1 and 1.3
-    zoomFactor = 1.1 + 0.2 * rand(); 
+    zoomFactor = 0.9 + 0.2 * rand()
     
     % Resize the image
     resizedImg = imresize(img, zoomFactor);
@@ -22,16 +19,21 @@ function [zoomedImg] = random_scale(img)
         startCol = round((colsResized - cols) / 2);
         zoomedImg = resizedImg(startRow + 1:startRow + rows, startCol + 1:startCol + cols, :);
     else
-        % Zoomed out - Pad the image
+        % Zoomed out - Pad the image with the original image
+        
+        % Calculate padding amounts for each dimension
         padRow = round((rows - rowsResized) / 2);
         padCol = round((cols - colsResized) / 2);
-        zoomedImg = padarray(resizedImg, [padRow, padCol], 0, 'both');
-        zoomedImg = zoomedImg(1:rows, 1:cols, :); % Ensure the image size matches the original
+        
+        % Ensure padding doesn't exceed the original image size
+        padRow = min(padRow, size(img, 1));
+        padCol = min(padCol, size(img, 2));
+        
+        % Initialize the zoomed image with the original content
+        zoomedImg = img(1:rows, 1:cols, :);
+        
+        % Update the padded region with the resized content
+        zoomedImg(padRow + 1:padRow + rowsResized, padCol + 1:padCol + colsResized, :) = resizedImg;
     end
-    
-    % Display the original and zoomed images
-    % subplot(1,2,1), imshow(img), title('Original Image');
-    % subplot(1,2,2), imshow(zoomedImg), title(['Zoomed Image (Scale: ' num2str(zoomFactor) ')']);
 
 end
-

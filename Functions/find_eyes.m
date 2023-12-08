@@ -25,7 +25,7 @@ function [eyes, mouth] = find_eyes(img)
 
     % If no eyes, error
     if isempty(eyes)
-        error('no eyes')
+        error('no eyes');
     end
 
     % Display the original image
@@ -44,4 +44,3 @@ function [eyes, mouth] = find_eyes(img)
     % end
     % hold off;
 end
-
