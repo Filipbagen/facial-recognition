@@ -1,16 +1,5 @@
 function [eyes, mouth] = find_eyes(img)
 
-    %%%%%%%%%%%%%%%% Crop the Image %%%%%%%%%%%%%%%%%%%%%
-    % [rows, cols, ~] = size(img);
-    % 
-    % % Calculate the cropping margins (10% on each side)
-    % cropMarginRows = round(0.1 * rows);
-    % cropMarginCols = round(0.1 * cols);
-    % 
-    % % Crop the image a bit
-    % img = imcrop(img, [cropMarginCols, cropMarginRows, cols - 2*cropMarginCols, rows - 2*cropMarginRows]);
-
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%%%% Lighting compensation - Gray World & White Patch %%%%%
     % GW = GrayWorld(img);
