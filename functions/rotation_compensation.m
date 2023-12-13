@@ -57,7 +57,7 @@
 
 
 
-function [rotatedImage, rotatedEyeCoordinates, rotatedMouthCoordinate] = rotation_compensation(img, eyeCoordinates, mouthCoordinate)
+function [rotatedImage, rotatedEyeCoordinates] = rotation_compensation(img, eyeCoordinates)
 
     % Extract eye positions
     x1 = eyeCoordinates(1, 1);
@@ -97,11 +97,11 @@ function [rotatedImage, rotatedEyeCoordinates, rotatedMouthCoordinate] = rotatio
     rotatedEyeCoordinates = [rotatedEyePos1(1), rotatedEyePos1(2); rotatedEyePos2(1), rotatedEyePos2(2)];
 
     % Rotate the mouth coordinates
-    mouthX = mouthCoordinate(1);
-    mouthY = mouthCoordinate(2);
-    rotatedMouthPos = rotateCoordinates([mouthX, mouthY], imageCenter);
+    % mouthX = mouthCoordinate(1);
+    % mouthY = mouthCoordinate(2);
+    % rotatedMouthPos = rotateCoordinates([mouthX, mouthY], imageCenter);
 
     % Assign the rotated mouth coordinates
-    rotatedMouthCoordinate = [rotatedMouthPos(1), rotatedMouthPos(2)];
+    % rotatedMouthCoordinate = [rotatedMouthPos(1), rotatedMouthPos(2)];
 end
 

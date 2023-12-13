@@ -1,8 +1,8 @@
 function [adjustedImage] = random_tone(img)
   
     % Define the range for the random tone change (-30% to 30%)
-    minToneChange = 0.7;
-    maxToneChange = 1.3;
+    minToneChange = 0.75;
+    maxToneChange = 1.12;
 
     % Generate a random tone change factor
     toneChangePercentage = rand() * (maxToneChange - minToneChange) + minToneChange;

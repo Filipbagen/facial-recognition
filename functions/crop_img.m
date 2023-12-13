@@ -1,5 +1,4 @@
-function croppedImage = crop_img(image, eyeCoordinates, mouthCoordinate)
-    % % Extract coordinates
+% % Extract coordinates
     % eye1 = eyeCoordinates(1:2);
     % eye2 = eyeCoordinates(3:4);
     % mouth = mouthCoordinate;
@@ -53,10 +52,13 @@ function croppedImage = crop_img(image, eyeCoordinates, mouthCoordinate)
 
 
 
+
+
+
+
+function croppedImage = crop_img(image, eyeCoordinates)
     img = image;
     eyes = eyeCoordinates;
-
-
 
     % EMMAS
     x1 = eyes(1);
