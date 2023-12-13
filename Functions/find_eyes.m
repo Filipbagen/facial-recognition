@@ -13,9 +13,9 @@ function [eyes, mouth] = find_eyes(img)
     [eyes, mouth] = face_boundary(img);
 
     % If no eyes, error
-    if isempty(eyes)
-        error('no eyes');
-    end
+    % if isempty(eyes)
+    %     error('no eyes');
+    % end
 
     % Display the original image
     % figure;
@@ -31,5 +31,16 @@ function [eyes, mouth] = find_eyes(img)
     %     plot(eyes(1, 1), eyes(1, 2), 'go', 'MarkerSize', 10, 'LineWidth', 5); % Left eye
     %     plot(eyes(2, 1), eyes(2, 2), 'bo', 'MarkerSize', 10, 'LineWidth', 5); % Right eye
     % end
+    % hold off;
+
+    % imshow(img);
+    % 
+    % hold on; % Keep the image displayed while adding the points
+    % 
+    % % Plot the eye coordinates
+    % % Assuming eyeCoordinates is of the form [x1 y1; x2 y2]
+    % plot(eyes(:,1), eyes(:,2), 'r+', 'MarkerSize', 10, 'LineWidth', 2);
+    % 
+    % % Add hold off if you're going to plot more things later
     % hold off;
 end

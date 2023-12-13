@@ -42,39 +42,41 @@ function [eyes, mouth] = face_boundary(img)
     if isempty(eye_pairs)
         disp('Exiting early: No valid eye pairs after combinations.');
         eyes = [];
-        return;
-    end
+        % return;
 
-    % Calculate distances
-    distances = sqrt((eye_pairs(:,1) - eye_pairs(:,3)).^2 + (eye_pairs(:,2) - eye_pairs(:,4)).^2);
+    else 
 
-    % Initialize minimum distance
-    min_dist = Inf;
-
-    % Iterate over valid combinations
-    for i = 1:size(eye_pairs, 1)
-        % Extract pair
-        x1 = eye_pairs(i, 1);
-        y1 = eye_pairs(i, 2);
-        x2 = eye_pairs(i, 3);
-        y2 = eye_pairs(i, 4);
-        current_distance = distances(i);
-
-        % Calculate mouth-eye distances
-        dist1 = sqrt((x1 - x_mouth)^2 + (y_mouth - y1)^2);
-        dist2 = sqrt((x2 - x_mouth)^2 + (y_mouth - y2)^2);
-        
-        % Making sure that the eye pair have similar y-coordinate (otehrwise not a pair)
-        some_value_percentage = 5; 
-        some_value = some_value_percentage / 100 * size(img, 1);
-
-
-        % Check distances and y-coordinate threshold
-        if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * current_distance && dist2 < 1.5 * current_distance && abs(y1 - y2) < some_value
-            min_dist = abs(dist1 - dist2);            
-            eyes = [x1 y1; x2 y2];
+        % Calculate distances
+        distances = sqrt((eye_pairs(:,1) - eye_pairs(:,3)).^2 + (eye_pairs(:,2) - eye_pairs(:,4)).^2);
+    
+        % Initialize minimum distance
+        min_dist = Inf;
+    
+        % Iterate over valid combinations
+        for i = 1:size(eye_pairs, 1)
+            % Extract pair
+            x1 = eye_pairs(i, 1);
+            y1 = eye_pairs(i, 2);
+            x2 = eye_pairs(i, 3);
+            y2 = eye_pairs(i, 4);
+            current_distance = distances(i);
+    
+            % Calculate mouth-eye distances
+            dist1 = sqrt((x1 - x_mouth)^2 + (y_mouth - y1)^2);
+            dist2 = sqrt((x2 - x_mouth)^2 + (y_mouth - y2)^2);
+            
+            % Making sure that the eye pair have similar y-coordinate (otehrwise not a pair)
+            some_value_percentage = 5; 
+            some_value = some_value_percentage / 100 * size(img, 1);
+    
+    
+            % Check distances and y-coordinate threshold
+            if abs(dist1 - dist2) < min_dist && dist1 < 1.5 * current_distance && dist2 < 1.5 * current_distance && abs(y1 - y2) < some_value
+                min_dist = abs(dist1 - dist2);            
+                eyes = [x1 y1; x2 y2];
+            end
+    
         end
-
     end
 
     % If no eyes are found
