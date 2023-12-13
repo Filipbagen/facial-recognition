@@ -28,7 +28,7 @@ function [binaryEyeMap] = eye_map(img)
 %     binaryEyeMap = imdilate(output, se);
     
      % Adjust the threshold value based on your requirements
-    threshold = 0.48; 
+    threshold = 0.32; 
    
     % Apply the threshold to create a binary image
     binaryEyeMap = output > threshold;

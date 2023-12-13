@@ -1,4 +1,5 @@
 function binary_img = face_mask(img)
+
     % light compensation of the input image
     img = white_patch(img);
 
@@ -25,7 +26,7 @@ function binary_img = face_mask(img)
     % Fill holes in the binary image
     binary_img = imfill(binary_img, 'holes');
     
-    se = strel('square', 11);
+    se = strel('square', 20);
     binary_img = imclose(binary_img, se);
     
     % Expand for image (10) to work
