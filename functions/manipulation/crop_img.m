@@ -1,66 +1,5 @@
-% % Extract coordinates
-    % eye1 = eyeCoordinates(1:2);
-    % eye2 = eyeCoordinates(3:4);
-    % mouth = mouthCoordinate;
-    % 
-    % % Calculate center between eyes
-    % eyeCenter = (eye1 + eye2) / 2;
-    % 
-    % % Determine the bounding box
-    % minX = min([eye1(1), eye2(1), mouth(1)]);
-    % maxX = max([eye1(1), eye2(1), mouth(1)]);
-    % minY = min([eye1(2), eye2(2), mouth(2)]);
-    % maxY = max([eye1(2), eye2(2), mouth(2)]);
-    % 
-    % % Adjust the box to maintain aspect ratio (3:4)
-    % boxWidth = maxX - minX;
-    % boxHeight = maxY - minY;
-    % aspectRatio = 3/4;
-    % 
-    % if (boxHeight/boxWidth) < aspectRatio
-    %     % Increase box height
-    %     boxHeight = boxWidth * aspectRatio;
-    % else
-    %     % Increase box width
-    %     boxWidth = boxHeight / aspectRatio;
-    % end
-    % 
-    % % Center the box around the eye center
-    % centerX = eyeCenter(1);
-    % centerY = (minY + maxY) / 2;  % Center between eyes and mouth
-    % x1 = round(centerX - boxWidth / 2);
-    % y1 = round(centerY - boxHeight / 2);
-    % 
-    % % Adjust coordinates to ensure they are within the image
-    % x1 = max(x1, 1);
-    % y1 = max(y1, 1);
-    % x2 = min(x1 + boxWidth, size(image, 2));
-    % y2 = min(y1 + boxHeight, size(image, 1));
-    % 
-    % width = 50;
-    % height = 150;
-    % 
-    % % Crop and resize the image
-    % croppedImage = imcrop(image, [x1 - width / 2, y1 - height / 2, x2 - x1 + width, y2 - y1 + height]);
-    % croppedImage = imresize(croppedImage, [400, 300]);
+function croppedImage = crop_img(img, eyes)
 
-
-
-
-
-
-
-
-
-
-
-
-
-function croppedImage = crop_img(image, eyeCoordinates)
-    img = image;
-    eyes = eyeCoordinates;
-
-    % EMMAS
     x1 = eyes(1);
     y1 = eyes(3);
     x2 = eyes(2);
@@ -68,9 +7,6 @@ function croppedImage = crop_img(image, eyeCoordinates)
     
     % Calculate the angle in radians
     angle_rad = atan2(y2 - y1, x2 - x1);
-
-    % Convert angle to degrees
-    angle_deg = rad2deg(angle_rad);
 
     % Initialization
     [imageHeight, imageWidth, ~] = size(img);
@@ -111,6 +47,4 @@ function croppedImage = crop_img(image, eyeCoordinates)
     % Crop the rotated image
     croppedRotatedImage = rot(cropY : cropY + cropHeight - 1, cropX : cropX + cropWidth - 1, :);
     croppedImage = imresize(croppedRotatedImage,[400,300]);
-
-
 end

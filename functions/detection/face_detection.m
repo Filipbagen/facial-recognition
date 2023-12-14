@@ -1,4 +1,4 @@
-function [eyeCoordinates, mouthCoordinate] = face_detection2(image)
+function [eyeCoordinates, mouthCoordinate] = face_detection(image)
 
     % Initialize output variables
     eyeCoordinates = [];

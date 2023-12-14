@@ -1,4 +1,4 @@
-function matchedLabel = recognizeFaceSVM(queryWeight, SVMModel, confidenceThreshold)
+function matchedLabel = recognize_face_svm(queryWeight, SVMModel, confidenceThreshold)
     % Predict the label of the query image and get the decision scores
     [predictedLabel, scores] = predict(SVMModel, queryWeight);
 

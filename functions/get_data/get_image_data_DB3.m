@@ -1,4 +1,4 @@
-function dataMatrix = preprocessFaceImage(folderPath)
+function dataMatrix = get_image_data_DB3(folderPath)
 
     commonSize = [400, 300];
 
@@ -54,5 +54,5 @@ function dataMatrix = preprocessFaceImage(folderPath)
     % and labels contains the corresponding labels for each image
 
     % Save the dataMatrix and labels to a .mat file
-    save('faceData.mat', 'dataMatrix', 'labels');
+    save('faceData_all.mat', 'dataMatrix', 'labels');
 end

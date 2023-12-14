@@ -1,12 +1,9 @@
-function featureWeights = projectOntoFeatureSpace(inputImage, pcaCoefficients, meanFace, fldCoefficients)
-    % Preprocess the input image
-    % queryImg = im2gray(inputImage);
+function featureWeights = project_onto_feature_space(inputImage, pcaCoefficients, meanFace, fldCoefficients)
+    
     queryImgVector = double(reshape(inputImage, 1, [])); % Reshape the image into a row vector
 
     % Subtract the mean face from the query image vector
     queryImgVector = queryImgVector - meanFace;
-
-
 
     % Check if dimensions are compatible for matrix multiplication
     if size(queryImgVector, 2) == size(pcaCoefficients, 1)

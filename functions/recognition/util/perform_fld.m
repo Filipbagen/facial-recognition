@@ -1,5 +1,8 @@
-function [fldCoefficients, fldProjectedData] = perform_fld(pcaScore, labels, numComponents)
-    
+function [fldCoefficients, fldProjectedData] = perform_fld(pcaScore, labels)
+
+    numClasses = 16;
+    numComponents = numClasses - 1;
+
     % Convert labels to numeric if they are not already
     if iscell(labels)
         [~, ~, numericLabels] = unique(labels, 'stable');
