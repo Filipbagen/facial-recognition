@@ -5,9 +5,6 @@ function id = tnm034(im, method)
 
     % runs only once
     [dataMatrix_all, labels, SVMModel, dataMatrix_DB1] = init();
-    
-    % compensate for tone variations
-    compensated = tone_compensation(im);
 
     % classify using eigenfaces and eucledian distance
     if strcmp(method, 'eigenface')
@@ -39,6 +36,9 @@ function id = tnm034(im, method)
     
     % fisher linear discriminant method
     elseif strcmp(method, 'fisherface')
+
+        % compensate for tone variations
+        compensated = tone_compensation(im);
     
         % Const
         confidenceThreshold = 0.03; % Distance between face and hyperplane

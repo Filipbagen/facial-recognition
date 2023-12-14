@@ -44,7 +44,20 @@ function croppedImage = crop_img(img, eyes)
     cropWidth = round((5/3)*(eye_dist)); % specify the width for cropping
     cropHeight = round((4/3)*cropWidth); % specify the height for cropping
 
+    % Ensure cropping coordinates are within the image boundaries
+    cropX = max(1, cropX);
+    cropY = max(1, cropY);
+    cropWidth = min(imageWidth2 - cropX, cropWidth);
+    cropHeight = min(imageHeight2 - cropY, cropHeight);
+
+    % Crop the rotated image
+    if cropX + cropWidth - 1 <= imageWidth2 && cropY + cropHeight - 1 <= imageHeight2
+        croppedRotatedImage = rot(cropY : cropY + cropHeight - 1, cropX : cropX + cropWidth - 1, :);
+    else
+        error('Crop dimensions exceed image boundaries.');
+    end
+
     % Crop the rotated image
     croppedRotatedImage = rot(cropY : cropY + cropHeight - 1, cropX : cropX + cropWidth - 1, :);
-    croppedImage = imresize(croppedRotatedImage,[400,300]);
+    croppedImage = imresize(croppedRotatedImage, [400, 300]);
 end
