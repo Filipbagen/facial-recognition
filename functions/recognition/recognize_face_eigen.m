@@ -12,6 +12,7 @@ function predictedLabel = recognize_face_eigen(queryWeights, score, numEigenface
         end
     end
 
+    % threshold = 14000;
     threshold = 5000;
 
     if minDistance < threshold

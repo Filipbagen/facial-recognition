@@ -10,8 +10,8 @@ function id = tnm034(im, method)
     if strcmp(method, 'eigenface')
 
         % detect the eyes using image processing
-        % [eyeCoordinates, ~] = face_boundary(im);
-        [eyeCoordinates, ~] = face_detection(im);
+        [eyeCoordinates, ~] = face_boundary(im);
+        % [eyeCoordinates, ~] = face_detection(im);
 
         if ~isempty(eyeCoordinates)
 
@@ -39,6 +39,7 @@ function id = tnm034(im, method)
 
         % compensate for tone variations
         compensated = tone_compensation(im);
+        % compensated = im;
     
         % Const
         confidenceThreshold = 0.03; % Distance between face and hyperplane
@@ -60,8 +61,9 @@ function id = tnm034(im, method)
         
             % Crop the image
             croppedImg = crop_img(grayImg, rotatedEyeCoordinates);
+            figure;
         end
-    
+
         % set face to unknown if no eyes are detected
         if isempty(croppedImg)
             id = 0;

@@ -31,7 +31,7 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
 
     % Create eye and mouth detectors
     eyeDetector = vision.CascadeObjectDetector('EyePairBig');
-    eyeDetector.ScaleFactor = 1.1;
+    eyeDetector.ScaleFactor = 2;
     % mouthDetector = vision.CascadeObjectDetector('Mouth', 'MergeThreshold', 12);
 
     eyeDetector.MergeThreshold = 1;

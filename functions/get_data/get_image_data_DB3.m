@@ -24,7 +24,7 @@ function dataMatrix = get_image_data_DB3(folderPath)
             img = im2double(img);
 
             % Face detection (implement or modify face_detection function)
-            [eyeCoordinates, ~] = face_detection2(img);
+            [eyeCoordinates, ~] = face_detection(img);
 
             % Check if eyes are detected
             if ~isempty(eyeCoordinates)
