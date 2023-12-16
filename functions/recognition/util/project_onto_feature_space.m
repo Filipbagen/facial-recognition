@@ -5,16 +5,11 @@ function featureWeights = project_onto_feature_space(inputImage, pcaCoefficients
     % Subtract the mean face from the query image vector
     queryImgVector = queryImgVector - meanFace;
 
-    % Check if dimensions are compatible for matrix multiplication
-    if size(queryImgVector, 2) == size(pcaCoefficients, 1)
-        % Project onto PCA space
-        pcaWeights = queryImgVector * pcaCoefficients;
-    else
-        error('Dimension mismatch between query image vector and PCA coefficients.');
-    end
+    % Project onto PCA space
+    pcaWeights = queryImgVector * pcaCoefficients;
 
     % Project onto FLD space if FLD coefficients are provided
-    if exist('fldCoefficients', 'var') && ~isempty(fldCoefficients)
+    if nargin > 3 && ~isempty(fldCoefficients)
         featureWeights = pcaWeights * fldCoefficients;
     else
         featureWeights = pcaWeights;

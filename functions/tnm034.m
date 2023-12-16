@@ -37,9 +37,11 @@ function id = tnm034(im, method)
     % fisher linear discriminant method
     elseif strcmp(method, 'fisherface')
 
+        im = im2double(im);
+
         % compensate for tone variations
-        compensated = tone_compensation(im);
-        % compensated = im;
+        % compensated = tone_compensation(im);
+        compensated = im;
     
         % Const
         confidenceThreshold = 0.03; % Distance between face and hyperplane
@@ -61,8 +63,7 @@ function id = tnm034(im, method)
         
             % Crop the image
             croppedImg = crop_img(grayImg, rotatedEyeCoordinates);
-            figure;
-        end
+        end            
 
         % set face to unknown if no eyes are detected
         if isempty(croppedImg)
@@ -72,17 +73,18 @@ function id = tnm034(im, method)
     
             % Perform PCA
             [reducedData, meanFace, pcaCoefficients, ~, ~] = perform_pca(dataMatrix_all);
-        
+
             % Perform FLD on the PCA score
             [fldCoefficients, ~] = perform_fld(reducedData, labels);
-        
+
             % Process a new query image (inputImage)
             queryWeights = project_onto_feature_space(croppedImg, pcaCoefficients, meanFace, fldCoefficients);
-            
+
             %  Use the SVM model to recognize the face with thresholding
             matchedLabel = recognize_face_svm(queryWeights, SVMModel, confidenceThreshold);
-        
-            id = str2double(matchedLabel);
+
+            % id = str2double(matchedLabel);
+            id = matchedLabel;
         end
         
     else 

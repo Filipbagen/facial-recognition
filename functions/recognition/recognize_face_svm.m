@@ -7,19 +7,14 @@ function matchedLabel = recognize_face_svm(queryWeight, SVMModel, confidenceThre
 
     % Check if the maximum confidence score meets the threshold
     if maxScore < confidenceThreshold
-        matchedLabel = 0; % Indicate uncertain recognition
+        matchedLabel = 0; % Indicate uncertain recognition as digit 0
     else
-        % Since predictedLabel is a scalar, no need to index it
-        if iscategorical(predictedLabel)
-            predictedLabelStr = char(predictedLabel);
-
-        elseif iscell(predictedLabel)
-            predictedLabelStr = predictedLabel{1};
-        else
-            % If labels are numeric or another format, convert to string
-            predictedLabelStr = num2str(predictedLabel);
+        % Directly use the predicted label if it's numeric
+        matchedLabel = predictedLabel;
+        
+        % If predictedLabel is not numeric (e.g., categorical), convert it to a number
+        if ~isnumeric(predictedLabel)
+            matchedLabel = str2double(char(predictedLabel));
         end
-
-        matchedLabel = predictedLabelStr;
     end
 end

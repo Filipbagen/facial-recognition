@@ -12,6 +12,8 @@ function dataMatrix = get_image_data_DB3(folderPath)
     subFolders = subFolders([subFolders.isdir]);  % filter out non-directory files
     subFolders = subFolders(~ismember({subFolders.name}, {'.', '..'}));  % remove . and ..
 
+    figure;
+
     % Iterate over each subfolder
     for sf = 1:length(subFolders)
         subFolderPath = fullfile(folderPath, subFolders(sf).name);
@@ -38,6 +40,9 @@ function dataMatrix = get_image_data_DB3(folderPath)
                 grayImg = im2gray(croppedImage);
                 resizedImg = imresize(grayImg, commonSize);
 
+                
+                imshow(resizedImg);
+
                 % Flatten and insert into the data matrix
                 dataMatrix = [dataMatrix; reshape(resizedImg, 1, [])];
 
@@ -45,7 +50,7 @@ function dataMatrix = get_image_data_DB3(folderPath)
                 labels = [labels; {subFolders(sf).name}];
             else
                 % Log error for the current image
-                errorLog{end+1} = sprintf('No eyes detected in image %s', fullfile(subFolders(sf).name, imageFiles(i).name));
+                fprintf('No eyes detected in image %s', fullfile(subFolders(sf).name, imageFiles(i).name));
             end
         end
     end

@@ -6,7 +6,6 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
 
     % Create the face detector
     faceDetector = vision.CascadeObjectDetector('FrontalFaceCART');
-    faceDetector.ScaleFactor = 2;
 
     % Detect the face
     faceBoxes = faceDetector(image);
@@ -16,29 +15,48 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
         disp('No face detected.');
         return;
     else
-        % Use the first detected face
-        faceBox = faceBoxes(1, :);
+        % Assuming faceBoxes contains the detected face rectangles
+        largestArea = 0;
+        largestIndex = 0;
+        
+        for i = 1:size(faceBoxes, 1)
+            % Extract coordinates of the current rectangle
+            currentBox = faceBoxes(i, :);
 
-        % % Display face boxes
-        % IFaces = insertObjectAnnotation(image,'rectangle',faceBoxes,'Face');   
-        % figure;
-        % imshow(IFaces);
-        % title('Detected faces');
+            width = currentBox(3);
+            height = currentBox(4);
+        
+            % Calculate the area of the current rectangle
+            currentArea = width * height;
+        
+            % Check if the current rectangle has a larger area
+            if currentArea > largestArea
+                largestArea = currentArea;
+                largestIndex = i;
+            end
+        end
     end
+
+    % Get the largest eyebox
+    faceBox = faceBoxes(largestIndex, :);
 
     % Crop the detected face region from the image
     faceImage = imcrop(image, faceBox);
 
+
+    % IFaces = insertObjectAnnotation(image, 'rectangle', faceBox, 'Eyes');   
+    % figure
+    % imshow(IFaces)
+    % title('Detected face');
+
+
+    % DETECT EYES
+
     % Create eye and mouth detectors
     eyeDetector = vision.CascadeObjectDetector('EyePairBig');
-    eyeDetector.ScaleFactor = 2;
-    % mouthDetector = vision.CascadeObjectDetector('Mouth', 'MergeThreshold', 12);
 
-    eyeDetector.MergeThreshold = 1;
-    % Detect eyes and mouth within the face region
+    % eyeDetector.MergeThreshold = 10;
     eyeBoxes = eyeDetector(faceImage);
-    % mouthBoxes = mouthDetector(faceImage);
-   
 
     if isempty(eyeBoxes)
         disp('No eyes detected within the face region.');
@@ -51,8 +69,7 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
         for i = 1:size(eyeBoxes, 1)
             % Extract coordinates of the current rectangle
             currentBox = eyeBoxes(i, :);
-            x = currentBox(1);
-            y = currentBox(2);
+
             width = currentBox(3);
             height = currentBox(4);
         
@@ -66,20 +83,18 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
             end
         end
         
-        % The largest rectangle
+        % Get the largest eyebox
         eyeBox = eyeBoxes(largestIndex, :);
-        % Use the first detected eye pair
-        %eyeBox = eyeBoxes(1, :);
-        
-        % % Display eye box
-        % IEyes = insertObjectAnnotation(faceImage,'rectangle',eyeBox,'Eyes'); 
-        % figure;
-        % imshow(IEyes);
-        % title('Detected Eyes');
-      
-    
+          
         % Crop the eye region from the face image
         eyeRegion = imcrop(faceImage, eyeBox);
+
+
+        % IFaces = insertObjectAnnotation(faceImage, 'rectangle', eyeBox, 'Eyes');   
+        % figure
+        % imshow(IFaces)
+        % title('Detected eyes');
+
 
         % Convert to grayscale and apply median filter (if necessary)
         grayEyeRegion = rgb2gray(eyeRegion);
@@ -131,36 +146,18 @@ function [eyeCoordinates, mouthCoordinate] = face_detection(image)
                 eyeCoordinates = bsxfun(@plus, [leftEyeCenter; rightEyeCenter], faceBox(1:2) - 1);
             end
         end
-        
-        % % Display eye coordinates
-        % figure;
+
+        % Display the face image
         % imshow(image);
+        % hold on;  % Keep the image displayed while plotting points
         % 
-        % % Mark out the eye coordinates with red rectangles
-        % for i = 1:size(eyeCoordinates, 1)
-        %     eyeCoord = eyeCoordinates(i, :);
-        %     rectangle('Position', [eyeCoord(1), eyeCoord(2), 5, 5], 'EdgeColor', 'r', 'LineWidth', 2);
-        % end
-        %  title('Detected Eyes');
+        % % Plot the left and right eye centers
+        % % The '+' marker is used here; you can choose other markers like 'o', 'x', etc.
+        % plot(eyeCoordinates(1, 1), eyeCoordinates(1, 2), 'r+', 'MarkerSize', 10); % Plot left eye center
+        % plot(eyeCoordinates(2, 1), eyeCoordinates(2, 2), 'g+', 'MarkerSize', 10); % Plot right eye center
+        % 
+        % hold off;  % Release the hold to prevent further plotting on this image
+        % title('Detected Eyes with Centers Marked');
         
     end
-
-    % % Check if mouth is detected within the face region
-    % if isempty(mouthBoxes)
-    %     disp('No mouth detected within the face region.');
-    % else
-    %     % Use the first detected mouth
-    %     mouthBox = mouthBoxes(1, :);
-    % 
-    %     % Calculate width (w) and height (h) of the mouth bounding box
-    %     w = mouthBox(3);
-    %     h = mouthBox(4);
-    % 
-    %     % Calculate the center of the mouth bounding box
-    %     centerX = mouthBox(1) + w / 2;
-    %     centerY = mouthBox(2) + h / 2;
-    % 
-    %     % Adjust mouth center coordinates relative to the original image
-    %     mouthCoordinate = bsxfun(@plus, [centerX, centerY], faceBox(1:2) - 1);
-    % end
 end
