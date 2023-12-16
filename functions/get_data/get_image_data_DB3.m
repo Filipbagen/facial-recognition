@@ -12,8 +12,6 @@ function dataMatrix = get_image_data_DB3(folderPath)
     subFolders = subFolders([subFolders.isdir]);  % filter out non-directory files
     subFolders = subFolders(~ismember({subFolders.name}, {'.', '..'}));  % remove . and ..
 
-    figure;
-
     % Iterate over each subfolder
     for sf = 1:length(subFolders)
         subFolderPath = fullfile(folderPath, subFolders(sf).name);
@@ -39,9 +37,6 @@ function dataMatrix = get_image_data_DB3(folderPath)
                 % Convert to grayscale and resize
                 grayImg = im2gray(croppedImage);
                 resizedImg = imresize(grayImg, commonSize);
-
-                
-                imshow(resizedImg);
 
                 % Flatten and insert into the data matrix
                 dataMatrix = [dataMatrix; reshape(resizedImg, 1, [])];

@@ -1,4 +1,3 @@
-
 function [rotatedImage, rotatedEyeCoordinates] = rotation_compensation(img, eyeCoordinates)
 
     % Extract eye positions

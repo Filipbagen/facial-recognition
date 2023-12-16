@@ -6,6 +6,5 @@ function [translatedImage] = random_translate(img)
 
     % Translate the image to position the left eye at the center
     translatedImage = imtranslate(img, [dx, dy]);
-
 end
 

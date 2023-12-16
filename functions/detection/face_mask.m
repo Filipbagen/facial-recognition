@@ -3,7 +3,6 @@ function binary_img = face_mask(img)
     % light compensation of the input image
     img = white_patch(img);
 
-
     % Method 1: YCbCr color space
     YCbCr_image = rgb2ycbcr(img);
     Y = YCbCr_image(:,:,1);
@@ -15,7 +14,6 @@ function binary_img = face_mask(img)
     Cb_max = 130;
     Cr_min = 136;
     Cr_max = 168;
-
 
     % Threshold segmentation algorithm for skin
     skin_mask = (Cb >= Cb_min & Cb <= Cb_max) & (Cr >= Cr_min & Cr <= Cr_max) & Y >= 80 ;

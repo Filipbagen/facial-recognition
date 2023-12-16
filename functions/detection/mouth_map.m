@@ -1,4 +1,5 @@
 function [mouth_Map, mouth_center] = mouth_map(img)
+
     % Convert RGB image to YCbCr Components
     YCbCr = rgb2ycbcr(img);
 
@@ -28,6 +29,7 @@ function [mouth_Map, mouth_center] = mouth_map(img)
 
     % Normalize final output, avoiding division by zero
     max_m_map2 = max(m_map2(:));
+
     if max_m_map2 ~= 0
         normalized_m_map2 = m_map2 ./ max_m_map2;
     else

@@ -23,5 +23,4 @@ function [result] = tone_compensation(originalRGB)
     
     result = cat(3, r_sensor,g_sensor,b_sensor);
     result=result*0.9;
-
 end

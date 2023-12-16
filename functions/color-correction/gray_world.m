@@ -10,5 +10,4 @@ function [outputImg] = gray_world(img)
     
     B_lin = chromadapt(A_lin, illumination, "ColorSpace","linear-rgb");
     outputImg = lin2rgb(B_lin);
-
 end
