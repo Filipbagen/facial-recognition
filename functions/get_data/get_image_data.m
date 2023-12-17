@@ -2,7 +2,7 @@ function get_image_data(folderPath, commonSize)
 
     imageFiles = dir(fullfile(folderPath, '*.jpg'));
     numberOfImages = numel(imageFiles);
-    dataMatrixDB1 = zeros(numberOfImages, prod(commonSize));
+    dataMatrix_DB1 = zeros(numberOfImages, prod(commonSize));
 
     for i = 1:numberOfImages
         
@@ -20,8 +20,12 @@ function get_image_data(folderPath, commonSize)
         croppedImage = crop_img(rotatedImage, rotatedEyeCoordinates);
         
         grayImg = im2gray(croppedImage);
-        dataMatrixDB1(i, :) = reshape(grayImg, 1, []);
+
+        figure;
+        imshow(grayImg);
+
+        dataMatrix_DB1(i, :) = reshape(grayImg, 1, []);
     end
 
-    save('dataMatrix_DB1.mat', 'dataMatrixDB1');
+    save('dataMatrix_DB1.mat', 'dataMatrix_DB1');
 end

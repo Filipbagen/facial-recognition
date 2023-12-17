@@ -79,6 +79,31 @@ function [eyes, mouth] = face_boundary(img)
         end
     end
 
+
+
+
+    % % Visualization of the results
+    % if ~isempty(eyes)
+    %     % Display the original image
+    %     figure;
+    %     imshow(img);
+    %     hold on; % Keep the image displayed while plotting points
+    % 
+    %     % Plot the eye coordinates
+    %     plot(eyes(:,1), eyes(:,2), 'r+', 'MarkerSize', 10, 'LineWidth', 2); % Eyes with red cross
+    % 
+    %     % Plot the mouth coordinates if mouth is detected
+    %     if ~isempty(mouth)
+    %         plot(mouth(1), mouth(2), 'b+', 'MarkerSize', 10, 'LineWidth', 2); % Mouth with blue cross
+    %     end
+    % 
+    %     hold off; % Release the hold to prevent further plotting on this image
+    %     title('Detected Facial Features');
+    % end
+
+
+
+
     % If no eyes are found
     if ~exist('eyes', 'var')
         eyes = [];

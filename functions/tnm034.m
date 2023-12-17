@@ -15,18 +15,21 @@ function id = tnm034(im, method)
 
         if ~isempty(eyeCoordinates)
 
+            % Compensate for rotation
+            [rotatedImage, rotatedEyeCoordinates] = rotation_compensation(im, eyeCoordinates);
+
+            % Convert to grayscale
+            grayImg = im2gray(rotatedImage);
+            
+            % Crop the image
+            croppedImage = crop_img(grayImg, rotatedEyeCoordinates);
+
             % Perform PCA
             [~, meanFace, ~, score, eigenfaces, numEigenValues] = perform_pca(dataMatrix_DB1);
 
-            % Compensate for rotation
-            [rotatedImage, rotatedEyeCoordinates] = rotation_compensation(im, eyeCoordinates);
-            
-            % Crop the image
-            croppedImage = crop_img(rotatedImage, rotatedEyeCoordinates);
-
-            % PCA
+            % Project onto eigenfaces
             queryWeights = project_onto_eigenfaces(croppedImage, eigenfaces, meanFace);
-            
+
             % Recognize the face
             id = recognize_face_eigen(queryWeights, score, numEigenValues);
         else
